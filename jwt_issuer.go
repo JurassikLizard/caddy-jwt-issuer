@@ -225,6 +225,8 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 	// Log JWT details
 	logJWTDetails(logger, tokenString, token)
 
+	logger.Debug("ADDING COOKIE")
+	
 	http.SetCookie(w, &http.Cookie{
 		Name:     "user_session",
 		Value:    tokenString,
@@ -232,14 +234,19 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 		HttpOnly: true,              // Prevent JavaScript access (secure)
 		Secure:   true,             // Set to true if you're using HTTPS
 		SameSite: http.SameSiteLaxMode, // Helps mitigate CSRF
-		Expires: time.Unix(int64(token.Claims.(jwt.MapClaims)["exp"].(float64)), 0), // Calculate from token
+		// Expires: time.Unix(int64(token.Claims.(jwt.MapClaims)["exp"].(float64)), 0), // Calculate from token
 	})
+
+	logger.Debug("ADDING JSON")
 	
 	// Send the successful response with the JWT
 	jsonResponse(w, http.StatusOK, apiResponse{
 		Message: "Success",
 		Token:   tokenString,
 	})
+
+	logger.Debug("ALL DONE")
+	
 	return nil
 }
 
