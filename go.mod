@@ -1,4 +1,4 @@
-module github.com/steffenbusch/caddy-jwt-issuer
+module github.com/JurassikLizard/caddy-jwt-issuer
 
 go 1.23.0
 
