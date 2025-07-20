@@ -221,6 +221,7 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 
 	// Log successful JWT issuance
 	logger.Info("Successfully issued JWT for user")
+	logger.Info("TEST")
 
 	// Log JWT details
 	logJWTDetails(logger, tokenString, token)
