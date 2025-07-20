@@ -234,7 +234,7 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 		HttpOnly: true,              // Prevent JavaScript access (secure)
 		Secure:   true,             // Set to true if you're using HTTPS
 		SameSite: http.SameSiteLaxMode, // Helps mitigate CSRF
-		// Expires: time.Unix(int64(token.Claims.(jwt.MapClaims)["exp"].(float64)), 0), // Calculate from token
+		Expires: time.Unix(token.Claims.(jwt.MapClaims)["exp"].(int64), 0), // Calculate from token
 	})
 
 	logger.Info("Successfully added cookie")
