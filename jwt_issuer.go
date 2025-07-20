@@ -221,12 +221,11 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 
 	// Log successful JWT issuance
 	logger.Info("Successfully issued JWT for user")
-	logger.Info("TEST")
 
 	// Log JWT details
 	logJWTDetails(logger, tokenString, token)
 
-	logger.Info("ADDING COOKIE")
+	logger.Info("Adding user_session cookie to HTTP response")
 	
 	http.SetCookie(w, &http.Cookie{
 		Name:     "user_session",
@@ -238,7 +237,7 @@ func (m *JWTIssuer) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddy
 		// Expires: time.Unix(int64(token.Claims.(jwt.MapClaims)["exp"].(float64)), 0), // Calculate from token
 	})
 
-	logger.Info("ADDING JSON")
+	logger.Info("Successfully added cookie")
 	
 	// Send the successful response with the JWT
 	jsonResponse(w, http.StatusOK, apiResponse{
